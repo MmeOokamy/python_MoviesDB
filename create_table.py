@@ -13,18 +13,17 @@ def create_tables():
         DROP TABLE IF EXISTS movies CASCADE;
         DROP TABLE IF EXISTS categories CASCADE;
         DROP TABLE IF EXISTS movies_categories CASCADE;
-
         """,
         """
         CREATE TABLE IF NOT EXISTS movies(
-            movie_id serial  PRIMARY KEY UNIQUE,
-            movie_orginal_title VARCHAR(255) NOT NULL,
+            movie_id SERIAL PRIMARY KEY UNIQUE,
+            movie_original_title VARCHAR(255) NOT NULL,
             movie_french_title VARCHAR(255) NOT NULL,
             movie_origin VARCHAR(255) NOT NULL,
             movie_img VARCHAR(255) NOT NULL,
             movie_description VARCHAR(255) NOT NULL,
             movie_rating INTEGER,
-            movie_date DATE
+            movie_date INTEGER
         )
         """,
         """

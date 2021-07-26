@@ -199,10 +199,40 @@ def movies():
             connexion.close()
 
 
+def movie(movie_id):
+    sql = '''
+        SELECT movies.movie_id, movies.movie_original_title, categories.category_description 
+        FROM movies
+        INNER JOIN movies_categories
+        ON movies.movie_id = movies_categories.movie_id
+        INNER JOIN categories
+        ON movies_categories.category_ID = categories.category_id
+        WHERE movies.movie_id = %s
+        '''
+
+    connexion = None
+    try:
+        params = config()
+        connexion = psycopg2.connect(**params)
+        curs = connexion.cursor()
+        curs.execute(sql, movie_id)
+        response = curs.fetchall()
+        for r in response:
+            print(r)
+        connexion.commit()
+        curs.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print("error : " + str(error))
+    finally:
+        if connexion is not None:
+            connexion.close()
+
+
 
 if __name__ == '__main__':
     # pass
-    movies()
+    movie('1')
+    # movies()
     # create_movie('alien', 'alien le 8eme passager', 'usa', 'alien.png', 'un vaisseau, un alien et sigourney weather', 6, 1978, [('1',), ('3',), ('5',)])
     # categories()
     # category('3')

@@ -14,6 +14,12 @@
 * user=username
 * password=userpassword
 
+## Windows 
+* utiliser python de l'ordi et pas de venv
+
+## linux 
+* utiliser python venv
+
 
 ## installation
 

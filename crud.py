@@ -121,8 +121,8 @@ def categories():
 
 
 
-def create_movie_alone(movie_original_title, movie_french_title, movie_origin, movie_img, movie_description, movie_rating, movie_date):
-    sql_movie = """INSERT INTO movies( movie_original_title, movie_french_title, movie_origin, movie_img, movie_description, movie_rating, movie_date) VALUES(%s, %s, %s, %s, %s, %s, %s) RETURNING movie_id"""
+def create_movie_alone(movie_api_id, movie_original_title, movie_french_title, movie_origin, movie_img, movie_description, movie_rating, movie_date):
+    sql_movie = """INSERT INTO movies(movie_api_id, movie_original_title, movie_french_title, movie_origin, movie_img, movie_description, movie_rating, movie_date) VALUES(%s, %s, %s, %s, %s, %s, %s) RETURNING movie_id"""
     connexion = None
     movie_id = None
 
@@ -130,7 +130,7 @@ def create_movie_alone(movie_original_title, movie_french_title, movie_origin, m
         params = config()
         connexion = psycopg2.connect(**params)
         cursor = connexion.cursor()
-        cursor.execute(sql_movie, (movie_original_title, movie_french_title, movie_origin, movie_img, movie_description, movie_rating, movie_date))
+        cursor.execute(sql_movie, (movie_api_id, movie_original_title, movie_french_title, movie_origin, movie_img, movie_description, movie_rating, movie_date))
         movie_id = cursor.fetchone()[0]
         connexion.commit()
         print("it's commit, you are create an Movie")

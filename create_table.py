@@ -17,13 +17,14 @@ def create_tables():
         """
         CREATE TABLE IF NOT EXISTS movies(
             movie_id SERIAL PRIMARY KEY UNIQUE,
+            movie_api_id INTEGER UNIQUE,
             movie_original_title VARCHAR(255) NOT NULL,
             movie_french_title VARCHAR(255) NOT NULL,
             movie_origin VARCHAR(255) NOT NULL,
             movie_img VARCHAR(255) NOT NULL,
             movie_description VARCHAR(255) NOT NULL,
             movie_rating INTEGER,
-            movie_date INTEGER
+            movie_year INTEGER
         )
         """,
         """

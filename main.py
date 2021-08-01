@@ -1,9 +1,9 @@
-from api import get_data
+from api import get_api_movies_list
 from tkinter import ttk
 from tkinter import *
 
 BG_COLOR = "#F83A00"
-CONTENT_COLOR = '#FF754A'
+CONTENT_BG_COLOR = '#FF754A'
 TXT_COLOR = "white"
 TITLE_COLOR = "black"
 
@@ -12,14 +12,14 @@ class App(Frame):
         super().__init__(master)
         self.pack()
 
-def get_movie():
+def search_movies():
     # troncate data_list for create new data_list
     for i in data_list.get_children():
         data_list.delete(i)
     # get text input/entry
     search = search_bar.get()
     # use get_data function and inserte into the window
-    movie = get_data(search)
+    movie = get_api_movies_list(search)
     for row in movie:
         id = row['movie_id']
         ori_title = row['movie_original_title']
@@ -53,26 +53,26 @@ height_win = app.master.winfo_height()
 app.rowconfigure(0, weight=1)
 app.columnconfigure(0, weight=1)
 
-box_left_top = Frame(app, bg=CONTENT_COLOR, width=150)
-box_left_bottom = Frame(app, bg=CONTENT_COLOR, width=150)
-box_middle_top = Frame(app, bg=CONTENT_COLOR, height=50)
-box_middle = Frame(app, bg=CONTENT_COLOR)
+box_left_top = Frame(app, bg=CONTENT_BG_COLOR, width=150)
+box_left_bottom = Frame(app, bg=CONTENT_BG_COLOR, width=150)
+box_middle_top = Frame(app, bg=CONTENT_BG_COLOR, height=50)
+box_middle = Frame(app, bg=CONTENT_BG_COLOR)
 
 # text
 title_label = Label(box_left_top, text="coucou", bg=BG_COLOR, fg=TITLE_COLOR)
 search_bar = Entry(box_middle_top)
-search_enter = Button(box_middle_top, text='Search movie', command=get_movie)
-txt_01_label = Label(box_left_top, text="txt 1", bg=CONTENT_COLOR, fg=TXT_COLOR)
-# txt_02_label = Label(box_middle, text="txt 2", bg=CONTENT_COLOR, fg=TXT_COLOR)
+search_enter = Button(box_middle_top, text='Search movie', command=search_movies)
+txt_01_label = Label(box_left_top, text="txt 1", bg=CONTENT_BG_COLOR, fg=TXT_COLOR)
+# txt_02_label = Label(box_middle, text="txt 2", bg=CONTENT_BG_COLOR, fg=TXT_COLOR)
 
 # fill the box
-data_list = ttk.Treeview(box_middle, columns=(1, 2, 3, 4), height=5, show="headings")
-data_list.heading(1, text="movie_id")
-data_list.heading(2, text="movie_original_title")
-data_list.heading(3, text="movie_french_title")
-data_list.column(1, width=50)
-data_list.column(2, width=100)
-data_list.column(3, width=100)
+data_list = ttk.Treeview(box_middle, columns=(1, 2, 3), height=5, show="headings")
+data_list.heading(1, text="ID")
+data_list.heading(2, text="Original Title")
+data_list.heading(3, text="French Title")
+data_list.column(1, width=75)
+data_list.column(2, width=200)
+data_list.column(3, width=200)
 
 # BTN
 exit_btn = Button(box_left_bottom, text="EXIT", command=quit)

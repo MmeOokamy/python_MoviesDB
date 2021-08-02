@@ -6,13 +6,13 @@ def create_tables():
     """ create tables in the PostgreSQL database"""
     commands = (
         """
-        TRUNCATE TABLE movies CASCADE;
-        TRUNCATE TABLE categories CASCADE;
+            TRUNCATE TABLE movies CASCADE;
+            TRUNCATE TABLE genres CASCADE;
         """,
         """
-        DROP TABLE IF EXISTS movies CASCADE;
-        DROP TABLE IF EXISTS categories CASCADE;
-        DROP TABLE IF EXISTS movies_categories CASCADE;
+            DROP TABLE IF EXISTS movies CASCADE;
+            DROP TABLE IF EXISTS genres CASCADE;
+            DROP TABLE IF EXISTS movies_genres CASCADE;
         """,
         """
         CREATE TABLE IF NOT EXISTS movies(
@@ -20,7 +20,7 @@ def create_tables():
             movie_api_id INTEGER UNIQUE,
             movie_original_title VARCHAR(255) NOT NULL,
             movie_french_title VARCHAR(255) NOT NULL,
-            movie_origin VARCHAR(255) NOT NULL,
+            movie_original_language VARCHAR(255) NOT NULL,
             movie_img VARCHAR(255) NOT NULL,
             movie_description VARCHAR(255) NOT NULL,
             movie_rating INTEGER,
@@ -28,21 +28,22 @@ def create_tables():
         )
         """,
         """
-        CREATE TABLE IF NOT EXISTS categories (
-            category_id SERIAL PRIMARY KEY,
-            category_description VARCHAR(255)
+        CREATE TABLE IF NOT EXISTS genres (
+            genre_id SERIAL PRIMARY KEY,
+            genre_api_id INTEGER UNIQUE,
+            genre_name VARCHAR(255)
         )
         """,
         """
-        CREATE TABLE movies_categories (
+        CREATE TABLE movies_genres (
             movie_id INTEGER NOT NULL,
-            category_id INTEGER NOT NULL,
-            PRIMARY KEY (movie_id , category_id),
+            genre_id INTEGER NOT NULL,
+            PRIMARY KEY (movie_id , genre_id),
             FOREIGN KEY (movie_id)
                 REFERENCES movies (movie_id)
                 ON UPDATE CASCADE ON DELETE CASCADE,
-            FOREIGN KEY (category_id)
-                REFERENCES categories (category_id)
+            FOREIGN KEY (genre_id)
+                REFERENCES genres (genre_id)
                 ON UPDATE CASCADE ON DELETE CASCADE
         )
         """

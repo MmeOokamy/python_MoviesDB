@@ -7,18 +7,16 @@
         Project to adapt moviesLand php to python - tkinter - postgreSQL
         it's going slowly
 
-## connec config_db.ini
+## connect config_db.ini
 * [postgresql] 
 * host=localhost
 * database=dbname
 * user=username
 * password=userpassword
 
-## Windows 
-* utiliser python de l'ordi et pas de venv
 
-## linux 
-* utiliser python venv
+## Venv: Windows & Linux 
+* cree un venv par machine et rajouter dans un gitignore
 
 
 ## installation

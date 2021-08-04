@@ -1,8 +1,7 @@
 /config_db.ini
 .idea
 .idea/
+__pycache__
 __pycache__/
-.idea/misc.xml
-.idea/misc.xml
 
 tuxVenv/

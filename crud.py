@@ -82,18 +82,22 @@ def delete_genre(genre_id):
             connexion.close()
 
 
-def genre(genre_id):
+def genre(genre_id_list):
+    sql = '''SELECT genre_name FROM genres WHERE genre_id IN (%s)'''
+    genres = []
     connexion = None
     try:
         params = config()
         connexion = psycopg2.connect(**params)
         curs = connexion.cursor()
-        curs.execute('SELECT * FROM genres where genre_id = %s', genre_id)
-        response = curs.fetchall()
-        for r in response:
-            print(r)
+        for genre_id in genre_id_list:
+            curs.execute(sql, genre_id)
+            response = curs.fetchall()
+            genres.append(response)
         connexion.commit()
         curs.close()
+        print(genres)
+        return genres
     except (Exception, psycopg2.DatabaseError) as error:
         print("error : " + str(error))
     finally:
@@ -127,30 +131,10 @@ def genres():
     
 
 
-def create_movie_alone(movie_api_id, movie_original_title, movie_french_title, movie_origin, movie_img, movie_description, movie_rating, movie_date):
-    sql_movie = """INSERT INTO movies(movie_api_id, movie_original_title, movie_french_title, movie_origin, movie_img, movie_description, movie_rating, movie_date) VALUES(%s, %s, %s, %s, %s, %s, %s) RETURNING movie_id"""
-    connexion = None
-    movie_id = None
-
-    try:
-        params = config()
-        connexion = psycopg2.connect(**params)
-        cursor = connexion.cursor()
-        cursor.execute(sql_movie, (movie_api_id, movie_original_title, movie_french_title, movie_origin, movie_img, movie_description, movie_rating, movie_date))
-        movie_id = cursor.fetchone()[0]
-        connexion.commit()
-        print("it's commit, you are create an Movie")
-        cursor.close()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print("error : " + str(error))
-    finally:
-        if connexion is not None:
-            connexion.close()
-    return movie_id
 
 
-def create_movie(movie_original_title, movie_french_title, movie_origin, movie_img, movie_description, movie_rating, movie_date, genre_id_list):
-    sql = """INSERT INTO movies( movie_original_title, movie_french_title, movie_origin, movie_img, movie_description, movie_rating, movie_date) VALUES(%s, %s, %s, %s, %s, %s, %s) RETURNING movie_id"""
+def create_movie(movie_api_id, movie_original_title, movie_french_title, movie_original_language, movie_img, movie_description, movie_rating, movie_year, genre_id_list):
+    sql = """INSERT INTO movies(movie_api_id, movie_original_title, movie_french_title, movie_original_language, movie_img, movie_description, movie_rating, movie_year) VALUES(%s, %s, %s, %s, %s, %s, %s, %s) RETURNING movie_id"""
 
     sql_genre = """INSERT INTO movies_genres (movie_id, genre_id) VALUES(%s, %s)"""
 
@@ -161,7 +145,7 @@ def create_movie(movie_original_title, movie_french_title, movie_origin, movie_i
         params = config()
         connexion = psycopg2.connect(**params)
         cursor = connexion.cursor()
-        cursor.execute(sql, (movie_original_title, movie_french_title, movie_origin, movie_img, movie_description, movie_rating, movie_date))
+        cursor.execute(sql, (movie_api_id, movie_original_title, movie_french_title, movie_original_language, movie_img, movie_description, movie_rating, movie_year))
         movie_id = cursor.fetchone()[0]
 
         for cat_id in genre_id_list:
@@ -178,15 +162,8 @@ def create_movie(movie_original_title, movie_french_title, movie_origin, movie_i
 
 
 def movies():
-    sql = '''
-        SELECT movies.movie_id, movies.movie_original_title, genres.genre_name
-        FROM movies
-        INNER JOIN movies_genres
-        ON movies.movie_id = movies_genres.movie_id
-        INNER JOIN genres
-        ON movies_genres.genre_ID = genres.genre_id
-        '''
-
+    sql = ''' SELECT * FROM movies '''
+    movies_list = []
     connexion = None
     try:
         params = config()
@@ -194,10 +171,14 @@ def movies():
         curs = connexion.cursor()
         curs.execute(sql)
         response = curs.fetchall()
-        for r in response:
-            print(r)
+        for movie in response:
+            movie_dict = {}
+            movie_dict.update({'movie_id': movie[0]})
+            movie_dict.update({'movie_name': movie[2]})              
+            movies_list.append(movie_dict)
         connexion.commit()
         curs.close()
+        return movies_list
     except (Exception, psycopg2.DatabaseError) as error:
         print("error : " + str(error))
     finally:
@@ -205,28 +186,32 @@ def movies():
             connexion.close()
 
 
-def movie(movie_id):
-    sql = '''
-        SELECT movies.movie_id, movies.movie_original_title, genres.genre_name 
-        FROM movies
-        INNER JOIN movies_genres
-        ON movies.movie_id = movies_genres.movie_id
-        INNER JOIN genres
-        ON movies_genres.genre_ID = genres.genre_id
-        WHERE movies.movie_id = %s
-        '''
-
+def get_movie(movie_id):
+    sql_movies = ''' SELECT * FROM movies WHERE movie_id = %s '''
     connexion = None
     try:
         params = config()
         connexion = psycopg2.connect(**params)
         curs = connexion.cursor()
-        curs.execute(sql, movie_id)
-        response = curs.fetchall()
-        for r in response:
-            print(r)
+        curs.execute(sql_movies, movie_id)
+        resp = curs.fetchall()
+        movie = {}
+        movie.update({'movie_id': resp[0][0]})
+        movie.update({'movie_api_id': resp[0][1]})
+        movie.update({'movie_original_title': resp[0][2]})
+        movie.update({'movie_french_title': resp[0][3]})
+        movie.update({'movie_original_language': resp[0][4]})
+        movie.update({'movie_img': resp[0][5]})
+        movie.update({'movie_description': resp[0][6]})
+        movie.update({'movie_rating': resp[0][7]})
+        movie.update({'movie_year': resp[0][8]})
+        genres = []
+        for genre in movie_genres(str(resp[0][0])):
+            genres.append(genre)
+        movie.update({'movie_genres': genres})
         connexion.commit()
         curs.close()
+        return movie
     except (Exception, psycopg2.DatabaseError) as error:
         print("error : " + str(error))
     finally:
@@ -234,14 +219,32 @@ def movie(movie_id):
             connexion.close()
 
 
+def movie_genres(movie_id):
+    sql_genre = ''' SELECT genres.genre_name FROM genres INNER JOIN movies_genres ON genres.genre_id = movies_genres.genre_id WHERE movies_genres.movie_id = %s'''
+    connexion = None
+    try:
+        params = config()
+        connexion = psycopg2.connect(**params)
+        curs = connexion.cursor()
+        curs.execute(sql_genre, movie_id)
+        resp = curs.fetchall()
+        connexion.commit()
+        curs.close()
+        return resp
+    except (Exception, psycopg2.DatabaseError) as error:
+        print("error : " + str(error))
+    finally:
+        if connexion is not None:
+            connexion.close()
 
 if __name__ == '__main__':
     # pass
-    # movie('1')
+    # movie_genres('1')
+    get_movie('1')
     # movies()
     # create_movie('alien', 'alien le 8eme passager', 'usa', 'alien.png', 'un vaisseau, un alien et sigourney weather', 6, 1978, [('1',), ('3',), ('5',)])
-    genres()
-    # genre('3')
+    # genres()
+    # genre([('4',), ('5',)])
     # delete_genre('4')
     # create_genre("Horror")
     # create_genres([('Horror',), ('Fantasy',), ('Action',), ('Comedy',), ('Sci-fy',)])

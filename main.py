@@ -2,7 +2,6 @@ from api import get_api_movies_list
 from tkinter import ttk, messagebox
 from tkinter import *
 
-
 BG_COLOR = "#F83A00"
 CONTENT_BG_COLOR = '#FF754A'
 TXT_COLOR = "white"
@@ -19,7 +18,7 @@ def search_movies():
         data_list.delete(i)
     # get text input/entry
     search = search_bar.get()
-    # use get_data function and inserte into the window
+    # use get_data function and insert into the window
     movie = get_api_movies_list(search)
     for row in movie:
         id = row['movie_id']

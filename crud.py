@@ -103,22 +103,28 @@ def genre(genre_id):
 
 def genres():
     connexion = None
+    genres_list = []
     try:
         params = config()
         connexion = psycopg2.connect(**params)
         curs = connexion.cursor()
         curs.execute('SELECT * FROM genres')
         response = curs.fetchall()
-        for r in response:
-            print(r)
+        for genre in response:
+            genre_dict = {}
+            genre_dict.update({'genre_id': genre[0]})
+            genre_dict.update({'genre_api_id': genre[1]})
+            genre_dict.update({'genre_name': genre[2]})
+            genres_list.append(genre_dict)
         connexion.commit()
         curs.close()
+        return genres_list
     except (Exception, psycopg2.DatabaseError) as error:
         print("error : " + str(error))
     finally:
         if connexion is not None:
             connexion.close()
-
+    
 
 
 def create_movie_alone(movie_api_id, movie_original_title, movie_french_title, movie_origin, movie_img, movie_description, movie_rating, movie_date):
@@ -230,11 +236,11 @@ def movie(movie_id):
 
 
 if __name__ == '__main__':
-    pass
+    # pass
     # movie('1')
     # movies()
     # create_movie('alien', 'alien le 8eme passager', 'usa', 'alien.png', 'un vaisseau, un alien et sigourney weather', 6, 1978, [('1',), ('3',), ('5',)])
-    # genres()
+    genres()
     # genre('3')
     # delete_genre('4')
     # create_genre("Horror")

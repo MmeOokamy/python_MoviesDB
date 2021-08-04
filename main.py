@@ -1,6 +1,7 @@
 from api import get_api_movies_list
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from tkinter import *
+
 
 BG_COLOR = "#F83A00"
 CONTENT_BG_COLOR = '#FF754A'
@@ -26,6 +27,23 @@ def search_movies():
         fr_title = row['movie_french_title']
         data_list.insert('', END, values=(id, ori_title, fr_title))
         
+def check_api_id():
+    if len(data_list.selection()) == 1:
+        # One item selected
+        item_dict = data_list.item(data_list.selection())
+        print(item_dict['values'][0])
+        return item_dict['values'][0]
+    else:
+        messagebox.showinfo('Information', "Veuillez Selectionner un Film")
+        print(len(data_list.selection()))
+        # MULTI SELECTION 
+        # api_id = data_list.selection()
+        # for id in api_id:
+        #     item_row = data_list.item(id)
+        #     print(item_row['values'][0])
+    
+    
+   
 
 
 # create the application
@@ -76,6 +94,8 @@ data_list.column(3, width=200)
 
 # BTN
 exit_btn = Button(box_left_bottom, text="EXIT", command=quit)
+open_btn = Button(box_left_bottom, text="Check id", command=check_api_id)
+
 
 
 # Pack & grid
@@ -90,6 +110,7 @@ txt_01_label.pack()
 # txt_02_label.pack()
 data_list.pack()
 exit_btn.pack(fill=X)
+open_btn.pack(fill=X)
 
 # start the program
 app.mainloop()

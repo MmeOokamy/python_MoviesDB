@@ -38,11 +38,7 @@ app.master.config(background=BG_COLOR)
 app.config(background=BG_COLOR)
 app.master.title("MILV")
 app.master.geometry("1000x400")
- 
-# icone = PhotoImage(file='img/OokaLogo.png')
-# app.master.iconphoto(True, icone)
-# app.master.iconbitmap('img/OokaLogo.ico') # windows
-# app.tk.call('wm', 'iconphoto', app.master._w, LOGO)
+
 
 # label
 movie_api_id_label = Label(app, text='id movie api', bg=BG_COLOR, fg=TITLE_COLOR)
@@ -64,11 +60,25 @@ movie_description_entry = Entry(app)
 movie_rating_entry = Entry(app)
 movie_year_entry = Entry(app)
 
+# multi selected list of genres =D
+genres_list = ttk.Treeview(app, columns=(1, 2), height=10, show="headings")
+genres_list.heading(1, text="ID")
+genres_list.heading(2, text="Name")
+genres_list.column(1, width=50)
+genres_list.column(2, width=150)
+
+genres_list_db = genres()
+for genre in genres_list_db:
+    id = genre['genre_id']
+    name = genre['genre_name']
+    genres_list.insert('', END, values=(id, name))
+
+
 # BTN
 save_btn = Button(app, text='Save', justify=CENTER, command=create_movie)
 exit_btn = Button(app, text="EXIT", justify=CENTER, command=quit)
 
-# Pack
+# Pack, grid, place
 movie_original_title_label.grid(row=0, column=0, padx=2, pady=2)
 movie_french_title_label.grid(row=1, column=0, padx=2, pady=2)
 movie_origin_label.grid(row=2, column=0, padx=2, pady=2)
@@ -79,7 +89,6 @@ movie_year_label.grid(row=6, column=0, padx=2, pady=2)
 movie_api_id_label.grid(row=7, column=0, padx=2, pady=2)
 
 # Entry
-
 movie_original_title_entry.grid(row=0, column=1, padx=2, pady=2)
 movie_french_title_entry.grid(row=1, column=1, padx=2, pady=2)
 movie_origin_entry.grid(row=2, column=1, padx=2, pady=2)
@@ -88,6 +97,9 @@ movie_description_entry.grid(row=4, column=1, padx=2, pady=2)
 movie_rating_entry.grid(row=5, column=1, padx=2, pady=2)
 movie_year_entry.grid(row=6, column=1, padx=2, pady=2)
 movie_api_id_entry.grid(row=7, column=1, padx=2, pady=2)
+
+# multi selected list of genres =D
+genres_list.grid(row=0, column=3, rowspan=8)
 
 # btn
 save_btn.grid(row=8, column=0, columnspan=2, sticky='nsew', padx=2, pady=2)

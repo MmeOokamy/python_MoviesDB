@@ -237,10 +237,31 @@ def movie_genres(movie_id):
         if connexion is not None:
             connexion.close()
 
+def update_movie(movie_id, movie_api_id, movie_original_title, movie_french_title, movie_original_language, movie_img, movie_description, movie_rating, movie_year):
+    # print(movie_id, movie_api_id, movie_original_title, movie_french_title, movie_original_language, movie_img, movie_description, movie_rating, movie_year, genre_id_list)
+    sql_movie = """ UPDATE movies SET movie_api_id = %s, movie_original_title = %s, movie_french_title = %s, movie_original_language = %s, movie_img = %s, movie_description = %s, movie_rating = %s, movie_year = %s WHERE movie_id = %s"""
+    connexion = None
+    update_rows = 0
+    try:
+        params = config()
+        connexion = psycopg2.connect(**params)
+        cursor = connexion.cursor()
+        cursor.execute(sql_movie, (movie_api_id, movie_original_title, movie_french_title, movie_original_language, movie_img, movie_description, movie_rating, movie_year, movie_id))
+        update_rows = cursor.rowcount
+        print("this movie is update")
+        connexion.commit()
+        cursor.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print("error : " + str(error))
+    finally:
+        if connexion is not None:
+            connexion.close()
+    return update_rows
+
 if __name__ == '__main__':
-    # pass
+    pass
     # movie_genres('1')
-    get_movie('1')
+    # get_movie('1')
     # movies()
     # create_movie('alien', 'alien le 8eme passager', 'usa', 'alien.png', 'un vaisseau, un alien et sigourney weather', 6, 1978, [('1',), ('3',), ('5',)])
     # genres()

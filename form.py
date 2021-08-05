@@ -1,6 +1,6 @@
 import requests
 from api import get_api_movies_list
-from crud import create_movie, get_movie, movies, genres
+from crud import create_movie, get_movie, movies, genres, update_movie
 import psycopg2
 from tkinter import ttk, messagebox
 from tkinter import *
@@ -17,6 +17,7 @@ class App(Frame):
     def __init__(self, master=None):
         super().__init__(master)
         self.pack()
+
 
 def add_movie():
     movie_api_id = movie_api_id_entry.get()
@@ -67,6 +68,9 @@ def read_movie():
         label.image = img 
         label.pack(expand=True)
 
+        update_button = Button(right_frame, text="Update", justify=CENTER, command=update_form_movie)
+        exit_btn = Button(right_frame, text="EXIT", justify=CENTER, command=toplevel.destroy)
+
         toplevel_id_label = Label(right_frame, text='id movie', bg=BG_COLOR, fg=TITLE_COLOR, anchor='w')
         toplevel_api_id_label = Label(right_frame, text='id movie api', bg=BG_COLOR, fg=TITLE_COLOR,  anchor='w')
         toplevel_original_title_label = Label(right_frame, text='Titre Original', bg=BG_COLOR, fg=TITLE_COLOR, anchor='w')
@@ -75,6 +79,8 @@ def read_movie():
         toplevel_description_label = Label(right_frame, text='Description', bg=BG_COLOR, fg=TITLE_COLOR, anchor='w')
         toplevel_rating_label = Label(right_frame, text='Note', bg=BG_COLOR, fg=TITLE_COLOR, anchor='w')
         toplevel_year_label = Label(right_frame, text='Année', bg=BG_COLOR, fg=TITLE_COLOR, anchor='w')
+        toplevel_genres_label = Label(right_frame, text='Genres', bg=BG_COLOR, fg=TITLE_COLOR, anchor='w')
+
 
         movie_db_id_label = Label(right_frame, text=film['movie_id'], bg=BG_COLOR, fg=TXT_COLOR, anchor='w')
         movie_db_api_id_label = Label(right_frame, text=film['movie_api_id'], bg=BG_COLOR, fg=TXT_COLOR, anchor='w')
@@ -83,8 +89,10 @@ def read_movie():
         movie_db_original_language_label = Label(right_frame, text=film['movie_original_language'], bg=BG_COLOR, fg=TXT_COLOR, anchor='w')
         movie_db_description_label = Text(right_frame, bg=BG_COLOR, fg=TXT_COLOR, height=4, borderwidth=0, highlightthickness=0)
         movie_db_description_label.insert(1.0, film['movie_description'])
+        movie_db_description_label.configure(state='disabled')
         movie_db_rating_label = Label(right_frame, text=film['movie_rating'], bg=BG_COLOR, fg=TXT_COLOR, anchor='w')
         movie_db_year_label = Label(right_frame, text=film['movie_year'], bg=BG_COLOR, fg=TXT_COLOR, anchor='w')
+        movie_db_genres_label = Label(right_frame, text=film['movie_genres'], bg=BG_COLOR, fg=TXT_COLOR, anchor='w')
 
         toplevel_id_label.grid(row=0, column=0, padx=2, pady=2, sticky=W)
         toplevel_api_id_label.grid(row=1, column=0, padx=2, pady=2, sticky=W)
@@ -94,6 +102,7 @@ def read_movie():
         toplevel_description_label.grid(row=5, column=0, padx=2, pady=2, sticky=W)
         toplevel_rating_label.grid(row=6, column=0, padx=2, pady=2, sticky=W)
         toplevel_year_label.grid(row=7, column=0, padx=2, pady=2, sticky=W)
+        toplevel_genres_label.grid(row=8, column=0, padx=2, pady=2, sticky=W)
 
         movie_db_id_label.grid(row=0, column=1, padx=2, pady=2, sticky=W)
         movie_db_api_id_label.grid(row=1, column=1, padx=2, pady=2, sticky=W)
@@ -103,13 +112,140 @@ def read_movie():
         movie_db_description_label.grid(row=5, column=1, padx=2, pady=2, sticky=W)
         movie_db_rating_label.grid(row=6, column=1, padx=2, pady=2, sticky=W)
         movie_db_year_label.grid(row=7, column=1, padx=2, pady=2, sticky=W)
+        movie_db_genres_label.grid(row=8, column=1, padx=2, pady=2, sticky=W)
+        
+        update_button.grid(row=9, column=1, columnspan=1, padx=2, pady=2, sticky=E)
+        exit_btn.grid(row=9, column=1, columnspan=1, padx=2, pady=2, sticky=W)
 
         left_frame.pack(side=LEFT)
         right_frame.pack(side=RIGHT, expand=False)
+
     else:
         messagebox.showinfo('Information', "Veuillez Selectionner un Film")
         print(len(movies_list.selection()))
     
+def update_form_movie():
+    item_dict = movies_list.item(movies_list.selection())
+    id = str(item_dict['values'][0])
+    film = get_movie(id)
+ 
+    update_frame = Toplevel(formApp, bg=BG_COLOR)
+
+    # Label
+    update_movie_id_label = Label(update_frame, text='id movie ', bg=BG_COLOR, fg=TITLE_COLOR)
+    update_movie_api_id_label = Label(update_frame, text='id movie api', bg=BG_COLOR, fg=TITLE_COLOR)
+    update_movie_original_title_label = Label(update_frame, text='Titre Original', bg=BG_COLOR, fg=TITLE_COLOR)
+    update_movie_french_title_label = Label(update_frame, text='Titre Français', bg=BG_COLOR, fg=TITLE_COLOR)
+    update_movie_original_language_label = Label(update_frame, text='Original Language', bg=BG_COLOR, fg=TITLE_COLOR)
+    update_movie_img_label = Label(update_frame, text='Image', bg=BG_COLOR, fg=TITLE_COLOR)
+    update_movie_description_label = Label(update_frame, text='Description', bg=BG_COLOR, fg=TITLE_COLOR)
+    update_movie_rating_label = Label(update_frame, text='Note', bg=BG_COLOR, fg=TITLE_COLOR)
+    update_movie_year_label = Label(update_frame, text='Année', bg=BG_COLOR, fg=TITLE_COLOR)
+
+    # Entry
+    update_movie_id_entry = Entry(update_frame)
+    update_movie_api_id_entry = Entry(update_frame)
+    update_movie_original_title_entry = Entry(update_frame)
+    update_movie_french_title_entry = Entry(update_frame)
+    update_movie_original_language_entry = Entry(update_frame)
+    update_movie_img_entry = Entry(update_frame)
+    update_movie_description_entry = Text(update_frame, height=4)
+    update_movie_rating_entry = Entry(update_frame)
+    update_movie_year_entry = Entry(update_frame)
+
+    #Fill Entry with movie database
+    update_movie_id_entry.insert(0, film['movie_id'])
+    update_movie_api_id_entry.insert(0, film['movie_api_id'])
+    update_movie_original_title_entry.insert(0,film['movie_original_title'])
+    update_movie_french_title_entry.insert(0,film['movie_french_title'])
+    update_movie_original_language_entry.insert(0,film['movie_original_language'])
+    update_movie_img_entry.insert(0,film['movie_img'])
+    update_movie_description_entry.insert(1.0, film['movie_description'])
+    update_movie_rating_entry.insert(0,film['movie_rating'])
+    update_movie_year_entry.insert(0,film['movie_year'])
+
+
+
+    # multi selected list of genres =D
+    
+    genres_list = ttk.Treeview(update_frame, columns=(1, 2), height=18, show="")
+    # genres_list.heading(1, text="ID")
+    # genres_list.heading(2, text="Name")
+    genres_list.column(1, width=25)
+    genres_list.column(2, width=100)
+
+    genres_list_db = genres()
+    for genre in genres_list_db:
+        id = genre['genre_id']
+        name = genre['genre_name']
+        genres_list.insert('', END, values=(id, name))
+    
+    select_set = []
+    
+    for genre_movie in film['movie_genres']:    
+        for child in genres_list.get_children():
+            values = genres_list.item(child, "values")
+            if genre_movie[0]==values[1]:
+                select_set.append(child)
+    
+    print(select_set)
+    genres_list.selection_set(select_set)
+          
+    def update():
+
+        movie_get_id = update_movie_id_entry.get()
+        movie_get_api_id = update_movie_api_id_entry.get()
+        movie_get_original_title = update_movie_original_title_entry.get()
+        movie_get_french_title = update_movie_french_title_entry.get()
+        movie_get_original_language = update_movie_original_language_entry.get()
+        movie_get_img = update_movie_img_entry.get()
+        movie_get_description = update_movie_description_entry.get("1.0","end")
+        movie_get_rating = update_movie_rating_entry.get()
+        movie_get_year = update_movie_year_entry.get()
+        try:
+            update_movie(movie_get_id, movie_get_api_id, movie_get_original_title, movie_get_french_title, movie_get_original_language, movie_get_img, movie_get_description, movie_get_rating, movie_get_year)
+
+            messagebox.showinfo('Information', "It's Update")
+            update_frame.destroy()
+            
+        except (Exception) as error:
+            messagebox.showinfo('Information', error)
+        
+    
+    # BTN
+    save_btn = Button(update_frame, text='Save Update', justify=CENTER, command=update)
+    exit_btn = Button(update_frame, text="EXIT", justify=CENTER, command=update_frame.destroy)
+
+    """ UPDATE FRAME Pack, grid, place """
+    # Label
+    update_movie_original_title_label.grid(row=0, column=0, padx=1, pady=1)
+    update_movie_french_title_label.grid(row=1, column=0, padx=1, pady=1)
+    update_movie_original_language_label.grid(row=2, column=0, padx=1, pady=1)
+    update_movie_img_label.grid(row=3, column=0, padx=1, pady=1)
+    update_movie_description_label.grid(row=4, column=0, padx=1, pady=1)
+    update_movie_rating_label.grid(row=5, column=0, padx=1, pady=1)
+    update_movie_year_label.grid(row=6, column=0, padx=1, pady=1)
+    update_movie_api_id_label.grid(row=7, column=0, padx=1, pady=1)
+    # update_movie_id_label.grid(row=8, column=0, padx=1, pady=1)
+
+    # Entry
+    update_movie_original_title_entry.grid(row=0, column=1, padx=1, pady=1, sticky=NSEW)
+    update_movie_french_title_entry.grid(row=1, column=1, padx=1, pady=1, sticky=NSEW)
+    update_movie_original_language_entry.grid(row=2, column=1, padx=1, pady=1, sticky=NSEW)
+    update_movie_img_entry.grid(row=3, column=1, padx=1, pady=1, sticky=NSEW)
+    update_movie_description_entry.grid(row=4, column=1, padx=1, pady=1, sticky=NSEW)
+    update_movie_rating_entry.grid(row=5, column=1, padx=1, pady=1, sticky=NSEW)
+    update_movie_year_entry.grid(row=6, column=1, padx=1, pady=1, sticky=NSEW)
+    update_movie_api_id_entry.grid(row=7, column=1, padx=1, pady=1, sticky=NSEW)
+    # update_movie_id_entry.grid(row=8, column=1, padx=1, pady=1, sticky=NSEW)
+
+    # multi selected list of genres =D
+    genres_list.grid(row=0, column=3, rowspan=10, ipadx=5, padx=10)
+
+    # btn
+    save_btn.grid(row=9, column=0, columnspan=2, sticky='nsew', padx=1, pady=1)
+    exit_btn.grid(row=10, column=0, columnspan=2, sticky='nsew', padx=1, pady=1)
+
 
 # create the application
 formApp = App()
@@ -125,20 +261,18 @@ formApp.master.geometry("1000x400")
 # Style
 style = ttk.Style(formApp)
 # style.theme_use("clam") # if i used this theme i can't change border of treeview
-style.configure("Treeview", background=CONTENT_BG_COLOR, fieldbackground=CONTENT_BG_COLOR, foreground=TITLE_COLOR,  borderwidth=0, bordercolor=BG_COLOR)
+style.configure("Treeview", background=CONTENT_BG_COLOR, fieldbackground=BG_COLOR, foreground=TITLE_COLOR,  borderwidth=0, bordercolor=BG_COLOR)
 
 
 # Frame
-movies_left_frame = Frame(formApp, bg=BG_COLOR)
-movies_left_frame.configure(padx=10)
-movies_right_frame = Frame(formApp, bg=BG_COLOR)
+movies_left_frame = LabelFrame(formApp, bg=BG_COLOR, text="My Favorite Movies")
+
+movies_right_frame = LabelFrame(formApp, bg=BG_COLOR, text="Add a Movie",highlightthickness=0, bd=0)
 
 """ MOVIES RIGHT FRAME """
 
 # Treeview
-movies_list = ttk.Treeview(movies_left_frame, columns=(1,2), height=10, show="headings")
-movies_list.heading(1, text="ID")
-movies_list.heading(2, text="Title")
+movies_list = ttk.Treeview(movies_left_frame, columns=(1,2), height=10, show="")
 movies_list.column(1, width=25)
 movies_list.column(2, width=250)
 
@@ -175,9 +309,9 @@ movie_rating_entry = Entry(movies_right_frame)
 movie_year_entry = Entry(movies_right_frame)
 
 # multi selected list of genres =D
-genres_list = ttk.Treeview(movies_right_frame, columns=(1, 2), height=10, show="headings")
-genres_list.heading(1, text="ID")
-genres_list.heading(2, text="Name")
+genres_list = ttk.Treeview(movies_right_frame, columns=(1, 2), height=18, show="")
+# genres_list.heading(1, text="ID")
+# genres_list.heading(2, text="Name")
 genres_list.column(1, width=25)
 genres_list.column(2, width=100)
 
@@ -220,15 +354,15 @@ movie_year_entry.grid(row=6, column=1, padx=2, pady=2)
 movie_api_id_entry.grid(row=7, column=1, padx=2, pady=2)
 
 # multi selected list of genres =D
-genres_list.grid(row=0, column=3, rowspan=8)
+genres_list.grid(row=0, column=3, rowspan=10, ipadx=5, padx=10)
 
 # btn
 save_btn.grid(row=8, column=0, columnspan=2, sticky='nsew', padx=2, pady=2)
 exit_btn.grid(row=9, column=0, columnspan=2, sticky='nsew', padx=2, pady=2)
 
 """" FRAME """
-movies_right_frame.pack(side=RIGHT)
-movies_left_frame.pack(fill=BOTH, expand=True,side=LEFT)
+movies_left_frame.pack(fill=BOTH, expand=True,side=LEFT, padx=10, pady=10, ipadx=5, ipady=5)
+movies_right_frame.pack(side=RIGHT, padx=10, pady=10)
 
 # start the program
 formApp.mainloop()

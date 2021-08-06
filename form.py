@@ -31,11 +31,10 @@ def add_movie():
 
     # MULTI SELECTION 
     genres_id_tuple = []
-    genres_id_list = genres_list.selection()
-    for id in genres_id_list:
-        item_row = genres_list.item(id)
-        # print(item_row['values'][0])
-        genres_id_tuple.append(item_row['values'][0])
+    for var in vars:
+        value = var.get()
+        if value:
+            genres_id_tuple.append(value)
     
     movies_list = genres_id_tuple
     create_movie(movie_api_id, movie_original_title, movie_french_title, movie_original_language, movie_img, movie_description, movie_rating, movie_year, movies_list)
@@ -256,7 +255,7 @@ formApp = App()
 formApp.master.config(background=BG_COLOR)
 formApp.config(background=BG_COLOR)
 formApp.master.title("MILV")
-formApp.master.geometry("1000x400")
+formApp.master.geometry("1000x500")
 
 # Style
 style = ttk.Style(formApp)
@@ -309,17 +308,18 @@ movie_rating_entry = Entry(movies_right_frame)
 movie_year_entry = Entry(movies_right_frame)
 
 # multi selected list of genres =D
-genres_list = ttk.Treeview(movies_right_frame, columns=(1, 2), height=18, show="")
-# genres_list.heading(1, text="ID")
-# genres_list.heading(2, text="Name")
-genres_list.column(1, width=25)
-genres_list.column(2, width=100)
-
+genres_frame = Frame(movies_right_frame, bg=BG_COLOR)
 genres_list_db = genres()
+vars = []
 for genre in genres_list_db:
     id = genre['genre_id']
     name = genre['genre_name']
-    genres_list.insert('', END, values=(id, name))
+    var = StringVar(value=id)
+    vars.append(var)
+    genres_cbx = Checkbutton(genres_frame, variable=var, text=name, onvalue=id, offvalue='', anchor=W, bg=BG_COLOR, highlightthickness=0, bd=0)
+    genres_cbx.pack(fill="x", anchor="w")
+    genres_cbx.deselect()
+
 
 
 # BTN
@@ -353,8 +353,8 @@ movie_rating_entry.grid(row=5, column=1, padx=2, pady=2)
 movie_year_entry.grid(row=6, column=1, padx=2, pady=2)
 movie_api_id_entry.grid(row=7, column=1, padx=2, pady=2)
 
-# multi selected list of genres =D
-genres_list.grid(row=0, column=3, rowspan=10, ipadx=5, padx=10)
+# genre Frame List
+genres_frame.grid(row=0, column=3, rowspan=10, ipadx=5, padx=10)
 
 # btn
 save_btn.grid(row=8, column=0, columnspan=2, sticky='nsew', padx=2, pady=2)

@@ -22,7 +22,7 @@ def create_tables():
             movie_french_title VARCHAR(255) NOT NULL,
             movie_original_language VARCHAR(255) NOT NULL,
             movie_img VARCHAR(255) NOT NULL,
-            movie_description VARCHAR(255) NOT NULL,
+            movie_description TEXT NOT NULL,
             movie_rating INTEGER,
             movie_year INTEGER
         )
@@ -62,6 +62,7 @@ def create_tables():
         cur.close()
         # commit the changes
         conn.commit()
+        print("Movies Database has been modified")
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
     finally:

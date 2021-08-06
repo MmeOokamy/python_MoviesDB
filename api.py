@@ -8,6 +8,7 @@ ADULT = 'true'
 # https://api.themoviedb.org/3/search/movie?api_key=c3568fa2093e83bc9999ba366802f9c7&language=fr&page=1&include_adult=false&query=
 
 
+
 def get_api_movies_list(request):
     
     query = 'https://api.themoviedb.org/3/search/movie?api_key=c3568fa2093e83bc9999ba366802f9c7&language=fr&page=1&include_adult=false&query='+ request
@@ -29,3 +30,14 @@ def get_api_movies_list(request):
     else:
         print('error')
 
+# call moviedb for had more detail
+# https://api.themoviedb.org/3/movie/348?api_key=c3568fa2093e83bc9999ba366802f9c7&language=fr
+def get_api_movie(movie_api_id):
+    api_url = 'https://api.themoviedb.org/3/movie/'+str(movie_api_id)+'?api_key=c3568fa2093e83bc9999ba366802f9c7&language=fr'
+    movie_api_detail = []
+    resp = requests.get(api_url)
+    if resp.status_code==200:
+        data = resp.json()
+        print(data)
+
+get_api_movie(175)

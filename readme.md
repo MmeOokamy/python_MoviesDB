@@ -27,3 +27,5 @@
     create table movies, categories, movies_categories (Foreign Key manytomany)
     crud categories -> in progress 
     crud movies -> soon
+
+## PIL

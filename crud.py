@@ -178,6 +178,7 @@ def movies():
             movies_list.append(movie_dict)
         connexion.commit()
         curs.close()
+        print(movies_list)
         return movies_list
     except (Exception, psycopg2.DatabaseError) as error:
         print("error : " + str(error))
@@ -259,10 +260,10 @@ def update_movie(movie_id, movie_api_id, movie_original_title, movie_french_titl
     return update_rows
 
 if __name__ == '__main__':
-    pass
+    # pass
     # movie_genres('1')
     # get_movie('1')
-    # movies()
+    movies()
     # create_movie('alien', 'alien le 8eme passager', 'usa', 'alien.png', 'un vaisseau, un alien et sigourney weather', 6, 1978, [('1',), ('3',), ('5',)])
     # genres()
     # genre([('4',), ('5',)])

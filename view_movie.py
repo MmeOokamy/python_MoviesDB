@@ -1,6 +1,6 @@
+from Movie import Movie
 from tkinter import ttk, messagebox
 from tkinter import *
-from Movie import *
 
 
 BG_COLOR = "#F83A00"
@@ -34,7 +34,7 @@ movies_right_frame = Frame(formApp, bg=BG_COLOR)
 
 alien_movie = Movie(0, 878,'alien', 'alien le 8eme passager', 'usa', '/oYbXxveNEAIgDUyoDWhpN9Lct8V.jpg', 'un vaisseau, un alien et sigourney weather', 6, 1978, [('1',), ('3',), ('5',)])
 
-alien_movie.movie_card(frame=movies_right_frame)
+alien_movie.movie_card(movies_right_frame)
 
 """" FRAME """
 movies_left_frame.pack(fill=BOTH, expand=True,side=LEFT, padx=10, pady=10, ipadx=5, ipady=5)

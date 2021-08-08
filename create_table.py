@@ -5,15 +5,15 @@ from config import config
 def create_tables():
     """ create tables in the PostgreSQL database"""
     commands = (
-        """
-            TRUNCATE TABLE movies CASCADE;
-            TRUNCATE TABLE genres CASCADE;
-        """,
-        """
-            DROP TABLE IF EXISTS movies CASCADE;
-            DROP TABLE IF EXISTS genres CASCADE;
-            DROP TABLE IF EXISTS movies_genres CASCADE;
-        """,
+        # """
+        #     TRUNCATE TABLE movies CASCADE;
+        #     TRUNCATE TABLE genres CASCADE;
+        # """,
+        # """
+        #     DROP TABLE IF EXISTS movies CASCADE;
+        #     DROP TABLE IF EXISTS genres CASCADE;
+        #     DROP TABLE IF EXISTS movies_genres CASCADE;
+        # """,
         """
         CREATE TABLE IF NOT EXISTS movies(
             movie_id SERIAL PRIMARY KEY UNIQUE,

@@ -278,7 +278,7 @@ movies_list.column(2, width=250)
 movies_list_db = movies()
 for movie in movies_list_db:
     id = movie['movie_id']
-    name = movie['movie_name']
+    name = movie['movie_french_title']
     movies_list.insert('', END, values=(id, name))
 
 # BTN

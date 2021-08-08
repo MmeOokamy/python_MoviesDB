@@ -1,4 +1,5 @@
 from Movie import Movie
+from crud import movies
 from tkinter import ttk, messagebox
 from tkinter import *
 
@@ -25,6 +26,7 @@ formApp.config(background=BG_COLOR)
 formApp.master.title("MILV")
 formApp.master.geometry("1000x500")
 
+movies = movies()
 
 
 # Frame
@@ -32,9 +34,14 @@ movies_left_frame = LabelFrame(formApp, bg=BG_COLOR, text="My Favorite Movies")
 
 movies_right_frame = Frame(formApp, bg=BG_COLOR)
 
-alien_movie = Movie(0, 878,'alien', 'alien le 8eme passager', 'usa', '/oYbXxveNEAIgDUyoDWhpN9Lct8V.jpg', 'un vaisseau, un alien et sigourney weather', 6, 1978, [('1',), ('3',), ('5',)])
+for movie in movies:
+   print(movie)
+   film = Movie(movie['movie_id'], movie['movie_api_id'], movie['movie_original_title'], movie['movie_french_title'], movie['movie_original_language'], movie['movie_img'], movie['movie_description'], movie['movie_rating'], movie['movie_year'], movie['movie_genres'])
+   film.movie_card(movies_right_frame)
 
-alien_movie.movie_card(movies_right_frame)
+# alien_movie = Movie(0, 878,'alien', 'alien le 8eme passager', 'usa', '/oYbXxveNEAIgDUyoDWhpN9Lct8V.jpg', 'un vaisseau, un alien et sigourney weather', 6, 1978, [('1',), ('3',), ('5',)])
+
+# alien_movie.movie_card(movies_right_frame)
 
 """" FRAME """
 movies_left_frame.pack(fill=BOTH, expand=True,side=LEFT, padx=10, pady=10, ipadx=5, ipady=5)

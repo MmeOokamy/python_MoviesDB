@@ -174,7 +174,18 @@ def movies():
         for movie in response:
             movie_dict = {}
             movie_dict.update({'movie_id': movie[0]})
-            movie_dict.update({'movie_name': movie[2]})              
+            movie_dict.update({'movie_api_id': movie[1]})
+            movie_dict.update({'movie_original_title': movie[2]})
+            movie_dict.update({'movie_french_title': movie[3]})
+            movie_dict.update({'movie_original_language': movie[4]})
+            movie_dict.update({'movie_img': movie[5]})
+            movie_dict.update({'movie_description': movie[6]})
+            movie_dict.update({'movie_rating': movie[7]})
+            movie_dict.update({'movie_year': movie[8]})
+            genres = []
+            for genre in movie_genres(str(movie[0])):
+                genres.append(genre)
+            movie_dict.update({'movie_genres': genres})           
             movies_list.append(movie_dict)
         connexion.commit()
         curs.close()
@@ -260,10 +271,10 @@ def update_movie(movie_id, movie_api_id, movie_original_title, movie_french_titl
     return update_rows
 
 if __name__ == '__main__':
-    # pass
+    pass
     # movie_genres('1')
     # get_movie('1')
-    movies()
+    # movies()
     # create_movie('alien', 'alien le 8eme passager', 'usa', 'alien.png', 'un vaisseau, un alien et sigourney weather', 6, 1978, [('1',), ('3',), ('5',)])
     # genres()
     # genre([('4',), ('5',)])

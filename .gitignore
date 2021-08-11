@@ -6,4 +6,5 @@ __pycache__/
 
 tuxVenv/
 venv/
+win-env/
 ckeckbutton.py

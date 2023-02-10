@@ -1,5 +1,6 @@
 from api import get_api_movie, get_api_movies_list
-from crud import genres, create_movie
+# from crud import genres, create_movie
+from models import Movie, Genre, 
 from tkinter import ttk, messagebox
 from tkinter import *
 

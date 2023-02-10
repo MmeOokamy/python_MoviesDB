@@ -5,7 +5,7 @@ db = Database()
 # create movies table
 table_name = "movies"
 fields = """
-            movie_id SERIAL PRIMARY KEY UNIQUE,
+            movie_id INTEGER PRIMARY KEY AUTOINCREMENT,
             movie_api_id INTEGER UNIQUE,
             movie_original_title VARCHAR(255) NOT NULL,
             movie_french_title VARCHAR(255) NOT NULL,
@@ -20,7 +20,7 @@ db.create_table(table_name, fields)
 # create genres table
 table_name = "genres"
 fields = """
-            genre_id SERIAL PRIMARY KEY,
+            genre_id INTEGER PRIMARY KEY AUTOINCREMENT,
             genre_api_id INTEGER UNIQUE,
             genre_name VARCHAR(255)
         """

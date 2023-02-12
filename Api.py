@@ -39,21 +39,13 @@ class API:
             return response.status_code
 
     def get_movie(self, movie_api_id):
-        api_url = f"https://api.themoviedb.org/3/movie/{movie_api_id}?api_key={self.api_key}&language={self.language}"
+        query= f"https://api.themoviedb.org/3/movie/{movie_api_id}?api_key={self.api_key}&language={self.language}"
         movie_api_detail = {}
-        response = requests.get(api_url)
+        response = requests.get(query)
+
         if response.status_code == 200:
-            data = response.json()
-            movie_api_detail.update({"movie_api_id": data["id"]})
-            movie_api_detail.update({"movie_original_title": data["original_title"]})
-            movie_api_detail.update({"movie_french_title": data["title"]})
-            movie_api_detail.update(
-                {"movie_original_language": data["original_language"]}
-            )
-            movie_api_detail.update({"movie_img": data["poster_path"]})
-            movie_api_detail.update({"movie_description": data["overview"]})
-            movie_api_detail.update({"movie_rating": int(data["popularity"])})
-            movie_api_detail.update({"movie_year": data["release_date"]})
-            return movie_api_detail
+            movie = response.json()
+
+            return movie
         else:
             return response.status_code

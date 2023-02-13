@@ -10,10 +10,12 @@ fields = """
             movie_original_title VARCHAR(255) NOT NULL,
             movie_french_title VARCHAR(255),
             movie_original_language VARCHAR(255),
-            movie_img VARCHAR(255),
+            movie_poster VARCHAR(255),
+            movie_backdrop VARCHAR(255),
             movie_description TEXT,
+            movie_tagline TEXT,
             movie_rating INTEGER DEFAULT 0 CHECK (movie_rating BETWEEN 0 AND 100),
-            movie_year INTEGER DEFAULT 1895 CHECK (movie_year >= 1895)
+            movie_release_date DATE DEFAULT '1895-12-28' CHECK (movie_release_date >= '1895-12-28')
         """
 db.create_table(table_name, fields)
 

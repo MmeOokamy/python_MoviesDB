@@ -41,13 +41,13 @@
     - La base de données a été créée en utilisant SQLite, et une classe Database a été implémentée pour gérer les opérations de lecture, d'écriture et de suppression de données.
     - Deux classes de modèle de données ont été créées : Movie et Genre, qui utilisent la classe Database pour effectuer des opérations de base de données.
     - Les méthodes save() et delete() ont été implémentées pour les classes Movie et Genre.
+    - Revision de l'Api `search_movies` et `get_movie`
 
 
 **Prochaines étapes :**
 
-    c'est un peu le bordel =D :
     - revoir le fichier install.md et requirements.txt
-    - Revision de l'Api
+    c'est un peu le bordel =D :
     - Implémenter l'interface utilisateur en utilisant la bibliothèque Tkinter.
     - Créer des classes d'écran pour les différentes fonctionnalités de l'application.
     - Implémenter la recherche de films par nom.

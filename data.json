@@ -1,0 +1,69 @@
+{
+  "adult": False,
+  'backdrop_path': '/veiWT3UYVvEOGCfGZLGDJtjJvdV.jpg',
+  'belongs_to_collection': None,
+  'budget': 10000000,
+  'genres': [
+        {'id': 18, 'name': 'Drame'}
+    ],
+  'homepage': '',
+  'id': 404,
+  'imdb_id': 'tt0166896',
+  'original_language': 'en',
+  'original_title': 'The Straight Story',
+  'overview': "Comme son titre l'indique, il s'agit bien d'une histoire vraie, celle d'Alvin Straight qui, a soixante-treize ans, après une mauvaise chute, décidé de quitter Laurens, village du nord de l'Iowa, pour retrouver son frère ainé qui vient d'avoir une attaque. Les deux frères sont fâchés depuis dix ans.",
+  'popularity': 14.177,
+  'poster_path': '/gL63NnHslMF1OF8m5ogvkzbOAOZ.jpg',
+  'production_companies': [
+        {'id': 2, 'logo_path': '/wdrCwmRnLFJhEoH8GSfymY85KHT.png', 'name': 'Walt Disney Pictures', 'origin_country': 'US'
+        },
+        {'id': 104, 'logo_path': '/9aotxauvc9685tq9pTcRJszuT06.png', 'name': 'Canal+', 'origin_country': 'FR'
+        },
+        {'id': 105, 'logo_path': '/pyiNvPJYGz4W2SImgULoG2sn4y4.png', 'name': 'CiBy 2000', 'origin_country': 'FR'
+        },
+        {'id': 181, 'logo_path': '/zhQ77XOviCBuXd74IurqqjgLNe0.png', 'name': 'Channel Four Films', 'origin_country': 'GB'
+        },
+        {'id': 373, 'logo_path': None, 'name': 'Asymmetrical Productions', 'origin_country': ''
+        },
+        {'id': 635, 'logo_path': None, 'name': 'Les Films Alain Sarde', 'origin_country': 'FR'
+        },
+        {'id': 637, 'logo_path': None, 'name': 'The Picture Factory', 'origin_country': ''
+        },
+        {'id': 694, 'logo_path': '/5LEHONGkZBIoWvp1ygHOF8iyi1M.png', 'name': 'StudioCanal', 'origin_country': 'FR'
+        },
+        {'id': 59423, 'logo_path': None, 'name': 'The Straight Story, Inc', 'origin_country': ''
+        }
+    ],
+  'production_countries': [
+        {'iso_3166_1': 'US', 'name': 'United States of America'
+        }
+    ],
+  'release_date': '1999-10-15',
+  'revenue': 6203044,
+  'runtime': 111,
+  'spoken_languages': [{'english_name': 'English', 'iso_639_1': 'en', 'name': 'English'}
+    ],
+  'status': 'Released',
+  'tagline': '',
+  'title': 'Une histoire vraie',
+  'video': False,
+  'vote_average': 7.7,
+  'vote_count': 1256
+}
+
+{
+  'adult': False,
+  'backdrop_path': '/AmR3JG1VQVxU8TfAvljUhfSFUOx.jpg',
+  'genre_ids': [27, 878],
+  'id': 348,
+  'original_language': 'en',
+  'original_title': 'Alien',
+  'overview': 'En 2122, le Nostromo, vaisseau de commerce, fait route vers la Terre avec à son bord un équipage de sept personnes en hibernation et une cargaison de minerais. Il interrompt soudain sa course suite à la réception d’un mystérieux message provenant d’une planète inexplorée. Réveillé par l’ordinateur de bord, l’équipage se rend sur place et découvre les restes d’un gigantesque vaisseau extraterrestre dont le seul passager semble être mort dans d’étranges circonstances…',
+  'popularity': 56.889,
+  'poster_path': '/l8CES84JndFlNfBNMxdLRYaLvI6.jpg',
+  'release_date': '1979-05-25',
+  'title': 'Alien, le huitième passager',
+  'video': False,
+  'vote_average': 8.138,
+  'vote_count': 12511
+}

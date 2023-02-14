@@ -33,7 +33,7 @@
     - Le projet est écrit en Python 3 et utilise la bibliothèque Tkinter pour l'interface utilisateur.
     - Les données sont stockées dans une base de données SQLite.
     - Le modèle de données utilise deux classes : Movie et Genre. Chaque instance de Movie peut être associée à plusieurs instances de Genre.
-    - Les opérations de lecture, d'écriture et de suppression de données sont effectuées via une classe Database qui utilise les modules Python sqlite3 et contextlib.
+    - Les opérations de lecture, d'écriture et de suppression de données sont effectuées via une classe Database qui utilise les modules Python sqlite3.
     - L'interface utilisateur est implémentée en utilisant la bibliothèque Tkinter. Les différents écrans sont implémentés sous forme de classes.
 
 **Récapitulatif de ce qui a été fait :**
@@ -42,15 +42,18 @@
     - Deux classes de modèle de données ont été créées : Movie et Genre, qui utilisent la classe Database pour effectuer des opérations de base de données.
     - Les méthodes save() et delete() ont été implémentées pour les classes Movie et Genre.
     - Revision de l'Api `search_movies` et `get_movie`
+    - Deplacer la logique de main.py dans un fichier utils.py qui fera le liens entre l'interface utilisateur et l'api / model / db
+    - `Genre` ne sera pas modifiable par l'utilisateur, possibilité de mettre a jour par rapport a l'api
 
 
 **Prochaines étapes :**
 
-    - revoir le fichier install.md et requirements.txt
     c'est un peu le bordel =D :
+    - revoir le fichier install.md et requirements.txt
     - Implémenter l'interface utilisateur en utilisant la bibliothèque Tkinter.
     - Créer des classes d'écran pour les différentes fonctionnalités de l'application.
     - Implémenter la recherche de films par nom.
     - Implémenter l'ajout de nouveaux films.
     - Implémenter la modification et la suppression de films existants.
     - Implémenter l'ajout, la modification et la suppression de genres.
+    - Il y en a encore surement bcp =)

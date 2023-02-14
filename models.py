@@ -9,6 +9,13 @@ class Genre:
         self.genre_api_id = genre_api_id
         self.genre_name = genre_name
 
+    def __str__(self):
+        return self.genre_name
+
+    def exist(self):
+        data = self.db.get_data("genres", "*", f"genre_api_id={self.genre_api_id}")
+        return True if data else False
+    
     def save(self):
         if self.id is None:
             data = self.db.get_data("genres", "*", f"genre_api_id={self.genre_api_id}")

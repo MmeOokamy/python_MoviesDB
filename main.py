@@ -3,31 +3,11 @@ import os
 from tkinter import *
 from colors import COLORS
 
-from Api import API
+import utils
 
-api = API()
 
 bg = COLORS['dark_blue']
 txt = COLORS['w']
-
-
-def detail():
-    mdb_id = search_detail_entry.get()
-    movie = api.get_movie(mdb_id)
-    if movie:
-        print(movie)
-    else:
-        print("Connais pô!")
-
-
-def search():
-    entry = search_entry.get()
-    movies = api.search_movies(entry)
-    if movies:
-        for movie in movies:
-            print(movie)
-    else:
-        print("Connais pô!")
 
 
 class App(Frame):
@@ -52,19 +32,21 @@ app.master.title("MovieDB v2.0")
 app.master.geometry("600x400")  # taille a amélioré
 
 # top frame avec la recherche
+update_button = Button(app.top_frame, text="Mettre à jour les genres", command=utils.update_genres_table)
+update_button.pack(side=LEFT, padx=5, pady=5)
 # movies
-search_button = Button(app.top_frame, text="?", command=search)
-search_button.pack(side=RIGHT, padx=5, pady=5)
-search_entry = Entry(app.top_frame)
-search_entry.pack(side=RIGHT, padx=5, pady=5)
 search_label = Label(app.top_frame, text="MDB, est ce que tu connais :", bg=bg, fg=txt)
+search_entry = Entry(app.top_frame)
+search_button = Button(app.top_frame, text="?", command=lambda: utils.search(search_entry))
+search_button.pack(side=RIGHT, padx=5, pady=5)
+search_entry.pack(side=RIGHT, padx=5, pady=5)
 search_label.pack(side=RIGHT, padx=5)
 
-search_detail_button = Button(app.content_frame, text="?", command=detail)
-search_detail_button.pack(side=RIGHT, padx=5, pady=5)
-search_detail_entry = Entry(app.content_frame)
-search_detail_entry.pack(side=RIGHT, padx=5, pady=5)
 search_detail_label = Label(app.content_frame, text="MDB, est ce que tu connais :", bg=bg, fg=txt)
+search_detail_entry = Entry(app.content_frame)
+search_detail_button = Button(app.content_frame, text="?", command=lambda:utils.detail(search_detail_entry))
+search_detail_button.pack(side=RIGHT, padx=5, pady=5)
+search_detail_entry.pack(side=RIGHT, padx=5, pady=5)
 search_label.pack(side=RIGHT, padx=5)
 
 # start the program

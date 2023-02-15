@@ -13,6 +13,7 @@ class Database:
         "movies.db". Elle crée également un curseur qui sera utilisé pour exécuter des requêtes sur la base de données.
         """
         self.conn = sqlite3.connect("movies.db")
+        # self.conn.row_factory = sqlite3.Row # définir la méthode row_factory sur l'objet de connexion
         self.cursor = self.conn.cursor()
 
     def create_table(self, table_name, fields):
@@ -37,7 +38,7 @@ class Database:
         self.cursor.execute(query, values)
         self.conn.commit()
 
-    def get_data(self, table_name, fields, conditions=None):
+    def get_data(self, table_name, fields, conditions=None, fetchall=True):
         """
         Cette méthode prend en entrée le nom de la table, les champs à récupérer et une condition facultative pour
         filtrer les données. La méthode construit une requête SQL qui sélectionne les champs spécifiés de la table,
@@ -48,7 +49,10 @@ class Database:
         if conditions:
             query += f" WHERE {conditions}"
         self.cursor.execute(query)
-        data = self.cursor.fetchall()
+        if fetchall:
+            data = self.cursor.fetchall()
+        else:
+            data = self.cursor.fetchone()
         return data
 
     def update_data(self, table_name, fields, values, conditions):

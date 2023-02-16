@@ -1,5 +1,6 @@
 import requests
 
+
 class API:
     def __init__(self, include_adult=False):
         self.api_key = "c3568fa2093e83bc9999ba366802f9c7"
@@ -7,7 +8,7 @@ class API:
         self.include_adult = include_adult
 
     def get_genres(self):
-        # utilise pour mettre a jour la liste des genres en base
+        # utilise pour mettre à jour la liste des genres en base
         response = requests.get(
             f"https://api.themoviedb.org/3/genre/movie/list?api_key={self.api_key}&language={self.language}"
         )

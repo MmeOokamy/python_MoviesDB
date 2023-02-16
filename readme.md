@@ -5,6 +5,8 @@
         - Dev&Co, quand le polish ne suffit plus
         - Have fun
         - <3
+        - en cas de bug : sudo apt-get install python3-tk
+
 
 
 **Titre du projet :** 

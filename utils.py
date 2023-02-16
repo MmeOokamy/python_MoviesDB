@@ -1,8 +1,9 @@
-
 from db import Database
 from models import Genre, Movie
 from Api import API
+
 api = API()
+
 
 def detail(search_detail_entry):
     mdb_id = search_detail_entry.get()
@@ -13,20 +14,20 @@ def detail(search_detail_entry):
     else:
         print("Connais pô!")
 
+
 def search(search_entry):
     entry = search_entry.get()
     movies = api.search_movies(entry)
     if movies:
-        result = []
+        results = []
         for movie in movies:
             # print(movie)
             movie = api_search_movies_to_list(movie)
-            result.append(movie)
-        return result
+            results.append(movie)
+        return results
     else:
         # print("Connais pô!")
         return "Connais pô!"
-        
 
 
 def update_genres_table():
@@ -38,11 +39,12 @@ def update_genres_table():
         if not genre_obj.exist():
             genre_obj.save()
     db.close_connection()
-    
+
 
 def convert_average(vote_average):
     average = int(float(vote_average) * 100)
     return average
+
 
 def api_search_movies_to_list(movie):
     genres = []
@@ -50,7 +52,7 @@ def api_search_movies_to_list(movie):
         for genre in movie["genre_ids"]:
             genre_obj = Genre(genre_api_id=genre).get_genre_name()
             genres.append(genre_obj)
-            
+
     api_movie = {
         "movie_api_id": movie["id"],
         "movie_original_title": movie["original_title"],
@@ -64,6 +66,7 @@ def api_search_movies_to_list(movie):
         "genres": genres,
     }
     return api_movie
+
 
 def api_get_movie_to_obj(movie):
     genres = []
@@ -82,7 +85,7 @@ def api_get_movie_to_obj(movie):
         "movie_description": movie["overview"],
         "movie_tagline": movie["tagline"],
         "movie_rating": convert_average(movie['vote_average']),
-        "movie_release_date":  movie["release_date"],
+        "movie_release_date": movie["release_date"],
         "genres": genres,
     }
     return api_movie

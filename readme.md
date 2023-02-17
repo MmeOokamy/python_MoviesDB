@@ -14,6 +14,12 @@
     MovieDB
         |── env/
         |── img/
+        |── doc/
+        |   ├── install.md  (a renseigner)
+        |   └── requirements.txt
+        |── models/
+        |   ├── genre.py
+        |   └── movie.py
         |── styles/
         |   ├── colors.py
         |   └── ttk_styles.py
@@ -21,12 +27,8 @@
         |   ├── Test_Genre.py
         |   └── Test_Movie.py
         |── Api.py
-        |── colors.py
-        |── db_init.py
         |── db.py
         |── main.py
-        |── models.py
-        |── ttk_styles.py
         |── utils.py
        
 

@@ -1,5 +1,6 @@
 from db import Database
-from models import Genre, Movie
+from models.genre import Genre
+from models.movie import Movie
 from Api import API
 
 api = API()

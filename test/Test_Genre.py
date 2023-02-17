@@ -1,6 +1,6 @@
 import unittest
 from db import Database
-from models import Genre
+from models.genre import Genre
 
 class TestGenre(unittest.TestCase):
 

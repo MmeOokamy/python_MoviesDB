@@ -88,11 +88,9 @@ def search_detail_command():
 def update_command():
     utils.update_genres_table()
     update_button.configure(text="Mise a jour finis!", style='Finished.TButton')
-    
-# Ajouter un bouton pour mettre à jour la table des genres
-update_button = ttk.Button(app.bottom_frame, text="Mettre à jour les genres", style='Custom.TButton', command=update_command)
-update_button.pack(side=LEFT, padx=5, pady=5)
 
+
+# TOP_FRAME
 # Ajouter une barre de recherche pour les films
 search_label = Label(app.top_frame, text="MDB, est ce que tu connais :", bg=bg, fg=txt)
 search_entry = Entry(app.top_frame)
@@ -109,6 +107,19 @@ search_detail_button = Button(app.top_frame, text="?", command=search_detail_com
 search_detail_button.pack(side=LEFT, padx=5, pady=5)
 search_detail_entry.pack(side=LEFT, padx=5, pady=5)
 search_label.pack(side=LEFT, padx=5)
+
+# CONTENT_FRAME
+
+
+# BOTTOM_FRAME
+
+# Ajouter un bouton pour mettre à jour la table des genres
+update_button = ttk.Button(app.bottom_frame, text="Mettre à jour les genres", style='Custom.TButton', command=update_command)
+update_button.pack(side=LEFT, padx=5, pady=5)
+
+
+
+
 
 # Lancer le programme
 app.mainloop()

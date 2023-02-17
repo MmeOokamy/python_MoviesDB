@@ -54,25 +54,20 @@ def search_command():
         widget.destroy()
 
     # Créer le tableau
-    table = ttk.Treeview(app.content_frame, columns=("Titre", "Année", "Genre", "Durée", "Note", "Synopsis"))
-    table.heading("#0", text="ID")
-    table.column("#0", width=50)
-    table.heading("Titre", text="Titre")
-    table.column("Titre", width=150)
-    table.heading("Année", text="Année")
-    table.column("Année", width=50)
-    table.heading("Genre", text="Genre")
-    table.column("Genre", width=100)
-    table.heading("Durée", text="Durée")
-    table.column("Durée", width=50)
-    table.heading("Note", text="Note")
-    table.column("Note", width=50)
-    table.heading("Synopsis", text="Synopsis")
-    table.column("Synopsis", width=200)
+    table = ttk.Treeview(app.content_frame, columns=(1, 2, 3, 4),  height=5, show="headings")
+    table.heading(1, text="ID")
+    table.column(1, width=20)
+    table.heading(2, text="Titre")
+    table.column(2, width=150, stretch=True)
+    table.heading(3, text="Note")
+    table.column(3, width=5)
+    table.heading(4, text="-_-")
+    table.column(4, width=50)
+    app.content_frame.columnconfigure(2, weight=1)
 
     # Ajouter les résultats dans le tableau
     for result in results:
-        table.insert("", "end", text=result['movie_french_title'], values=result['movie_french_title'])
+        table.insert('', END, values=(result['movie_api_id'], result['movie_french_title'], f"{result['movie_rating']} %", result['movie_poster']))
 
     # Afficher le tableau dans le content_frame
     table.pack(side=TOP, fill=BOTH, expand=True)
@@ -94,19 +89,21 @@ def update_command():
 # Ajouter une barre de recherche pour les films
 search_label = Label(app.top_frame, text="MDB, est ce que tu connais :", bg=bg, fg=txt)
 search_entry = Entry(app.top_frame)
-search_button = Button(app.top_frame, text="?", command=search_command)
+# search_button = Button(app.top_frame, text="?", command=search_command)
+search_button = ttk.Button(app.top_frame, text="?", style='Search.TButton', command=search_command)
 
 search_button.pack(side=RIGHT, padx=5, pady=5)
 search_entry.pack(side=RIGHT, padx=5, pady=5)
 search_label.pack(side=RIGHT, padx=5)
 
 # Ajouter une barre de recherche pour afficher les détails d'un film
-search_detail_label = Label(app.top_frame, text="MDB, est ce que tu connais :", bg=bg, fg=txt)
-search_detail_entry = Entry(app.top_frame)
-search_detail_button = Button(app.top_frame, text="?", command=search_detail_command)
-search_detail_button.pack(side=LEFT, padx=5, pady=5)
-search_detail_entry.pack(side=LEFT, padx=5, pady=5)
-search_label.pack(side=LEFT, padx=5)
+# cette fonction est a rajouter dans le tableau de la liste des films rechercher
+# search_detail_label = Label(app.top_frame, text="MDB, est ce que tu connais :", bg=bg, fg=txt)
+# search_detail_entry = Entry(app.top_frame)
+# search_detail_button = Button(app.top_frame, text="?", command=search_detail_command)
+# search_detail_button.pack(side=LEFT, padx=5, pady=5)
+# search_detail_entry.pack(side=LEFT, padx=5, pady=5)
+# search_label.pack(side=LEFT, padx=5)
 
 # CONTENT_FRAME
 

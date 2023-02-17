@@ -43,7 +43,7 @@ def update_genres_table():
 
 
 def convert_average(vote_average):
-    average = int(float(vote_average) * 100)
+    average = int(float(vote_average) * 10)
     return average
 
 

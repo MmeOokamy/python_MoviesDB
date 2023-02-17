@@ -15,20 +15,26 @@
         |── ancienne_V1.0/ (garde jusqu'a la sorti de la v2)
         |── db/ (rajouter un dump - un jour)
         |   └── db_init.py
+        |
         |── doc/
         |   ├── install.md  (a renseigner)
         |   └── requirements.txt
+        |
         |── env/
         |── img/
+        |
         |── models/
         |   ├── genre.py
         |   └── movie.py
+        |
         |── styles/
         |   ├── colors.py
         |   └── ttk_styles.py
+        |
         |── test/
         |   ├── Test_Genre.py
         |   └── Test_Movie.py
+        |
         |── Api.py
         |── db.py
         |── main.py

@@ -1,5 +1,6 @@
 import requests
-
+from io import BytesIO
+from PIL import Image, ImageTk
 
 class API:
     def __init__(self, include_adult=False):
@@ -37,5 +38,17 @@ class API:
         if response.status_code == 200:
             movie = response.json()
             return movie
+        else:
+            return response.status_code
+
+    def get_img(self, img_url):
+        query = 'https://image.tmdb.org/t/p/original' + img_url
+        response = requests.get(query)
+        
+        if resp_img.status_code == 200:
+            img_data = response.content
+            img_open = Image.open(BytesIO(img_data))
+            img = ImageTk.PhotoImage(img_open)
+            return img
         else:
             return response.status_code

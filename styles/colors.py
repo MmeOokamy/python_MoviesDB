@@ -5,4 +5,5 @@ COLORS = {
     'light_blue': '#a5d8dd',
     'blue': '#0091d5',
     'dark_blue': '#1c4e80',
+    'light_green': '#4CAF50',
 }

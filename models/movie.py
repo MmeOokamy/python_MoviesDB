@@ -1,7 +1,13 @@
 import re
 from db import Database
-from models.genre import Genre
-
+# from models.genre import Genre
+class Genre:
+    def __init__(self, genre_api_id: int, id=None, genre_name: str = None):
+        self.db = Database()
+        self.id = id
+        self.genre_api_id = genre_api_id
+        self.genre_name = genre_name
+        
 class Movie:
     def __init__(
             self,
@@ -74,6 +80,15 @@ class Movie:
         self.movie_release_date = movie_release_date
         self.genres = genres or []
 
+    def exist(self):
+        data = self.db.get_data("movies", "*", f"movie_api_id={self.movie_api_id}", False)
+        return True if data else False
+    
+    def get_by_api_id(self, api_id):
+        data = self.db.get_data("movies", "*", f"movie_api_id={api_id}", False)
+        return data
+        
+    
     def save(self):
         if self.id:
             self.db.update_data(

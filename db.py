@@ -1,4 +1,5 @@
 import sqlite3
+import os
 
 
 class Database:
@@ -12,9 +13,18 @@ class Database:
         Cette méthode initialise une nouvelle connexion à la base de données SQLite, en utilisant le nom de fichier
         "movies.db". Elle crée également un curseur qui sera utilisé pour exécuter des requêtes sur la base de données.
         """
-        self.conn = sqlite3.connect("movies.db")
-        # self.conn.row_factory = sqlite3.Row # définir la méthode row_factory sur l'objet de connexion
-        self.cursor = self.conn.cursor()
+        # Vérifier si le fichier de la base de données existe
+        if not os.path.isfile("movies.db"):
+            # Si le fichier de la base de données n'existe pas, le créer et initialiser les tables
+            self.conn = sqlite3.connect("movies.db")
+            self.cursor = self.conn.cursor()
+            self.db_init()
+        else:
+             # Si le fichier de la base de données existe, ouvrir la connexion à la base de données
+            self.conn = sqlite3.connect("movies.db")
+            self.cursor = self.conn.cursor()
+
+       
 
     def create_table(self, table_name, fields):
         """
@@ -84,3 +94,44 @@ class Database:
         d'interagir avec la base de données, pour libérer les ressources système utilisées par la connexion.
         """
         self.conn.close()
+        
+    def db_init(self):
+        table_name = "movies"
+        fields = """
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    movie_api_id INTEGER UNIQUE NOT NULL,
+                    movie_original_title VARCHAR(255) NOT NULL,
+                    movie_french_title VARCHAR(255),
+                    movie_original_language VARCHAR(255),
+                    movie_poster VARCHAR(255),
+                    movie_backdrop VARCHAR(255),
+                    movie_description TEXT,
+                    movie_tagline TEXT,
+                    movie_rating INTEGER DEFAULT 0 CHECK (movie_rating BETWEEN 0 AND 100),
+                    movie_release_date DATE DEFAULT '1895-12-28' CHECK (movie_release_date >= '1895-12-28')
+                """
+        self.create_table(table_name, fields)
+
+        # create genres table
+        table_name = "genres"
+        fields = """
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    genre_api_id INTEGER UNIQUE NOT NULL,
+                    genre_name VARCHAR(255) NOT NULL
+                """
+        self.create_table(table_name, fields)
+
+        # create movies_genres table
+        table_name = "movies_genres"
+        fields = """
+                    movie_id INTEGER NOT NULL,
+                    genre_id INTEGER NOT NULL,
+                    PRIMARY KEY (movie_id , genre_id),
+                    FOREIGN KEY (movie_id)
+                        REFERENCES movies (id)
+                        ON UPDATE CASCADE ON DELETE CASCADE,
+                    FOREIGN KEY (genre_id)
+                        REFERENCES genres (id)
+                        ON UPDATE CASCADE ON DELETE CASCADE
+                """
+        self.create_table(table_name, fields)

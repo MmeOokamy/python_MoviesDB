@@ -1,5 +1,5 @@
 from tkinter import ttk
-from colors import COLORS # Module contenant des constantes de couleur
+from styles.colors import COLORS # Module contenant des constantes de couleur
 
 COLORS = {
     '':'',

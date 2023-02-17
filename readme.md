@@ -12,6 +12,24 @@
 **Titre du projet :** 
 
     MovieDB
+        |── env/
+        |── img/
+        |── styles/
+        |   ├── colors.py
+        |   └── ttk_styles.py
+        |── test/
+        |   ├── Test_Genre.py
+        |   └── Test_Movie.py
+        |── Api.py
+        |── colors.py
+        |── db_init.py
+        |── db.py
+        |── main.py
+        |── models.py
+        |── ttk_styles.py
+        |── utils.py
+       
+
 
 **Description du projet :** 
     

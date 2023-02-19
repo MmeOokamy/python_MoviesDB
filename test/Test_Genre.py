@@ -2,8 +2,8 @@ import unittest
 from db import Database
 from models.genre import Genre
 
-class TestGenre(unittest.TestCase):
 
+class TestGenre(unittest.TestCase):
     def setUp(self):
         self.db = Database()
         self.genre = Genre(genre_api_id=1, genre_name="Action")
@@ -40,5 +40,6 @@ class TestGenre(unittest.TestCase):
         self.assertIsNone(self.genre.id)
         self.assertFalse(self.genre.exist())
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     unittest.main()

@@ -14,7 +14,7 @@ fields = """
             movie_backdrop VARCHAR(255),
             movie_description TEXT,
             movie_tagline TEXT,
-            movie_rating INTEGER DEFAULT 0 CHECK (movie_rating BETWEEN 0 AND 100),
+            movie_rating FLOAT DEFAULT 0.0 CHECK (movie_rating BETWEEN 0.0 AND 100.0),
             movie_release_date DATE DEFAULT '1895-12-28' CHECK (movie_release_date >= '1895-12-28')
         """
 db.create_table(table_name, fields)

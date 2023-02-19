@@ -1,13 +1,11 @@
 import re
 from db import Database
-# from models.genre import Genre
-class Genre:
-    def __init__(self, genre_api_id: int, id=None, genre_name: str = None):
-        self.db = Database()
-        self.id = id
-        self.genre_api_id = genre_api_id
-        self.genre_name = genre_name
-        
+from models.genre import Genre
+
+class MovieGenre:
+    def __init__(self, movie_id, genre_id):
+        pass
+    
 class Movie:
     def __init__(
             self,
@@ -20,7 +18,7 @@ class Movie:
             movie_backdrop: str = None,
             movie_description: str = None,
             movie_tagline: str = None,
-            movie_rating: int = 0,
+            movie_rating: float = 0.0,
             movie_release_date: str = '1895-12-28',
             genres: list[Genre] = [],
     ):
@@ -59,8 +57,8 @@ class Movie:
                 or movie_tagline is None
         ), "L'attribut 'movie_description' doit être une chaîne de caractères ou None."
         assert (
-                isinstance(movie_rating, int) and 0 <= movie_rating <= 100
-        ), "L'attribut 'movie_rating' doit être un entier entre 0 et 100"
+                isinstance(movie_rating, float) and 0.0 <= movie_rating <= 100.0
+        ), "L'attribut 'movie_rating' doit être un entier/decimal entre 0.0 et 100.0"
         assert (
                 isinstance(movie_release_date, str)
                 and re.match(r'\d{4}-\d{2}-\d{2}', movie_release_date)
@@ -83,12 +81,15 @@ class Movie:
     def exist(self):
         data = self.db.get_data("movies", "*", f"movie_api_id={self.movie_api_id}", False)
         return True if data else False
-    
+
     def get_by_api_id(self, api_id):
         data = self.db.get_data("movies", "*", f"movie_api_id={api_id}", False)
         return data
-        
-    
+
+    def get_by_id(self, id):
+        data = self.db.get_data("movies", "*", f"id={id}", False)
+        return data
+
     def save(self):
         if self.id:
             self.db.update_data(

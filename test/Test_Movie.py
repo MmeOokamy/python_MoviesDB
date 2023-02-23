@@ -14,7 +14,8 @@ class TestMovie(unittest.TestCase):
             movie_original_language='en',
             movie_poster='/the_godfather/poster.jpg',
             movie_backdrop='/the_godfather/backdrop.jpg',
-            movie_description='The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.',
+            movie_description='The aging patriarch of an organized crime dynasty transfers control of his clandestine '
+                              'empire to his reluctant son.',
             movie_tagline='An offer you can\'t refuse.',
             movie_rating=9.2,
             movie_release_date='1972-03-14',

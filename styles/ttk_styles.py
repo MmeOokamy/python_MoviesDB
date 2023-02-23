@@ -44,6 +44,14 @@ style.configure('Finished.TButton',
                 borderwidth=2,
                 relief='groove')
 
+style.configure('Exit.TButton',
+                foreground=txt,
+                background=bg,
+                font=('Sans-serif', 12),
+                padding=2,
+                borderwidth=0,
+                relief='groove')
+
 # Redéfinir les couleurs de fond et de texte des boutons lorsqu'ils sont survolés
 style.map('Custom.TButton', 
           foreground=[('active', txt)], 
@@ -51,6 +59,10 @@ style.map('Custom.TButton',
 
 style.map('Search.TButton', 
           foreground=[('active', lb)], 
+          background=[('active', bg)])
+
+style.map('Exit.TButton',
+          foreground=[('active', lb)],
           background=[('active', bg)])
 
 style.map('Finished.TButton', 

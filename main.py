@@ -23,7 +23,7 @@ class App(Frame):
         # Créer un Frame principal qui prendra le reste de l'écran pour afficher les résultats
         self.content_frame = Frame(self, bg=txt)
         self.content_frame.pack(side=TOP, fill=BOTH, expand=True)
-        
+
         # Créer un Frame en pied de page pour les différents params
         self.bottom_frame = Frame(self, bg=bg, height=50)
         self.bottom_frame.pack(side=BOTTOM, fill=X)
@@ -54,7 +54,7 @@ def search_command():
         widget.destroy()
 
     # Créer le tableau
-    table = ttk.Treeview(app.content_frame, columns=(1, 2, 3, 4),  height=5, show="headings")
+    table = ttk.Treeview(app.content_frame, columns=(1, 2, 3, 4), height=5, show="headings")
     table.heading(1, text="ID")
     table.column(1, width=20)
     table.heading(2, text="Titre")
@@ -67,7 +67,9 @@ def search_command():
 
     # Ajouter les résultats dans le tableau
     for result in results:
-        table.insert('', END, values=(result['movie_api_id'], result['movie_french_title'], f"{result['movie_rating']} %", result['movie_poster']))
+        table.insert('', END, values=(
+            result['movie_api_id'], result['movie_french_title'], f"{result['movie_rating']} %",
+            result['movie_poster']))
 
     # Afficher le tableau dans le content_frame
     table.pack(side=TOP, fill=BOTH, expand=True)
@@ -85,6 +87,10 @@ def update_command():
     update_button.configure(text="Mise a jour finis!", style='Finished.TButton')
 
 
+def valider(event):
+    print("Validation!")
+
+
 # TOP_FRAME
 # Ajouter une barre de recherche pour les films
 search_label = Label(app.top_frame, text="MDB, est ce que tu connais :", bg=bg, fg=txt)
@@ -95,6 +101,7 @@ search_button = ttk.Button(app.top_frame, text="?", style='Search.TButton', comm
 search_button.pack(side=RIGHT, padx=5, pady=5)
 search_entry.pack(side=RIGHT, padx=5, pady=5)
 search_label.pack(side=RIGHT, padx=5)
+
 
 # Ajouter une barre de recherche pour afficher les détails d'un film
 # cette fonction est a rajouter dans le tableau de la liste des films rechercher
@@ -109,14 +116,11 @@ search_label.pack(side=RIGHT, padx=5)
 
 
 # BOTTOM_FRAME
-
 # Ajouter un bouton pour mettre à jour la table des genres
-update_button = ttk.Button(app.bottom_frame, text="Mettre à jour les genres", style='Custom.TButton', command=update_command)
+update_button = ttk.Button(app.bottom_frame, text="Mettre à jour les genres", style='Custom.TButton',
+                           command=update_command)
 update_button.pack(side=LEFT, padx=5, pady=5)
-
-
-
-
-
+exit_btn = ttk.Button(app.bottom_frame, text="X", style='Exit.TButton', command=quit)
+exit_btn.pack(side=RIGHT)
 # Lancer le programme
 app.mainloop()
